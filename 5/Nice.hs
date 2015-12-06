@@ -5,7 +5,7 @@ threeVowels s = length vs >= 3
   where vs = filter (\c -> elem c "aeiou") s
 
 duplicate :: String -> Bool
-duplicate (x:y:zs) = if (x==y) then True else duplicate (y:zs) 
+duplicate (x:y:zs) = x==y || duplicate (y:zs) 
 duplicate _ = False
 
 passesBlacklist :: String -> Bool
@@ -18,11 +18,11 @@ isNice1 :: String -> Bool
 isNice1 s = (threeVowels s) && (duplicate s) && (passesBlacklist s)
 
 divorce :: String -> Bool
-divorce (x:y:z:es) = if (x==z) then True else divorce (y:z:es)
+divorce (x:y:z:es) = x==z || divorce (y:z:es)
 divorce _ = False
 
 twins :: String -> Bool
-twins (x:y:zs) = if isInfixOf [x,y] zs then True else twins (y:zs)
+twins (x:y:zs) = isInfixOf [x,y] zs || twins (y:zs)
 twins _ = False
 --Caught the fact that I need to call twins on (y:zs) instead of just zs thanks to
 --https://github.com/tylerjl/adventofcode/blob/master/src/Y2015/D05.hs
